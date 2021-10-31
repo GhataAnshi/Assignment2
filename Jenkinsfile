@@ -26,8 +26,8 @@ pipeline{
         stage('Execute Cotainer') {
             agent {
                     docker {
-                        image 'maven-application-assignment:$BUILD_NUMBER'
-                        args '-v $HOME/.m2:/root/.m2'
+                        image 'maven-application-assignment:BUILD_NUMBER'
+                        args '-v HOME/.m2:/root/.m2'
                     }
                 }
 
