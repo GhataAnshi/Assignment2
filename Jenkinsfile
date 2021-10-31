@@ -33,15 +33,9 @@ pipeline{
                 }
         }
         stage('Execute Container') {
-
-
             steps {
                 sh 'docker run maven-application:$BUILD_NUMBER'
-            }
+                }
         }
-
-}
-
-
     }
 }
