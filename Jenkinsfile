@@ -29,6 +29,7 @@ pipeline{
                     sh "docker pull gtaa/maven-application-assignment:1.0.0"
                     sh "docker run gtaa/maven-application-assignment:1.0.0"
     }
+    }
         stage('Execute Container') {
 
 
