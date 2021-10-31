@@ -25,7 +25,7 @@ pipeline{
         }
         stage('Push to Docker Registry'){
                 withCredentials([usernamePassword(credentialsId: 'gtaa', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    docker.withRegistry('', 'docker-hub-credentials') {
+                    docker.withRegistry('', 'gtaa') {
                     sh "docker login -u $dockerUser -p $dockerPassword"  
                     sh "docker pull gtaa/maven-application-assignment:1.0.0"
                     sh "docker run gtaa/maven-application-assignment:1.0.0"
