@@ -23,13 +23,15 @@ pipeline{
             } 
 
         }
-            stage('Push to Docker Registry'){
+        stage('Push to Docker Registry'){
                 withCredentials([usernamePassword(credentialsId: 'gtaa', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    steps {
                     sh "docker login -u $dockerUser -p $dockerPassword"  
                     sh "docker pull gtaa/maven-application-assignment:1.0.0"
                     sh "docker run gtaa/maven-application-assignment:1.0.0"
-    }
-    }
+                    }
+                }
+        }
         stage('Execute Container') {
 
 
