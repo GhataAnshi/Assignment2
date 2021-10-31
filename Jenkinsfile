@@ -9,15 +9,6 @@ pipeline{
 
     stages { 
 
-        stage('Cloning our Git') { 
-
-            steps { 
-
-                git 'https://github.com/GhataAnshi/Assignment2.git 
-
-            }
-
-        } 
 
         stage('Building our image') { 
 
@@ -25,7 +16,7 @@ pipeline{
 
                 script { 
 
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                    dockerImage = docker.build dockerImage + ":$BUILD_NUMBER" 
 
                 }
 
