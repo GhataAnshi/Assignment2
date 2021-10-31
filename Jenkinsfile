@@ -23,17 +23,11 @@ pipeline{
             } 
 
         }
-        stage('Execute Cotainer') {
-            agent {
-                    docker {
-                        image 'maven-application-assignment:BUILD_NUMBER'
-                        args '-v HOME/.m2:/root/.m2'
-                    }
-                }
+        stage('Execute Container') {
 
 
             steps {
-                sh 'docker run maven-application:1.0.0'
+                sh 'docker run maven-application:$BUILD_NUMBER'
             }
         }
 
