@@ -1,5 +1,7 @@
 pipeline{
-
+ environment {
+        dockerImage = 'maven-application-assignment'
+    }
 
    agent any 
 
