@@ -1,43 +1,58 @@
-pipeline{
- environment {
+def user
+node {
+  wrap([$class: 'BuildUser']) {
+    user = env.BUILD_USER_ID
+  }
+}
+
+pipeline {
+
+   environment {
         dockerImage = 'maven-application-assignment'
     }
 
-   agent any 
+    agent any
+    stages {
 
-    stages { 
-
-        stage('Scan with SonarQube') {
-            steps {
-
-                bat 'mvn -f ./my-app/pom.xml package sonar:sonar -Dsonar.login=c3ecc1b7d6d7239c5681d0df589e97c52368ffd1'
-                
-            }
+        stage('Code pull from Github') { 
+            steps { 
+                checkout scm
+            } 
+        }
+        stage('Build Application') { 
+            steps { 
+                sh ' mvn -f ./my-app/pom.xml clean package'
+            } 
         }
 
-
-        stage('Building our image') {
-            steps {
-                script {
-                    dockerImage = docker.build dockerImage + ":%BUILD_NUMBER%" 
+        stage('Scan with SonarQube') { 
+            steps { 
+                withSonarQubeEnv('SonarQubeToken'){
+                   bat 'mvn sonar:sonar'
                 }
-            }
+            } 
         }
 
+        stage('Building our image') { 
+            steps { 
+                script { 
+                    dockerImage = docker.build dockerImage 
+                }
+            } 
+        }
 
-        stage('Run Container'){
+        stage('Push to ECR'){
                 steps {
                     echo "Steps that are followed: \n 1. Image built in above step is pushed to repository."
-                    script{withCredentials([usernamePassword(credentialsId: 'gtaa', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    docker.withRegistry('', 'gtaa') {
-                     sh " docker tag maven-application-assignment:${BUILD_NUMBER} gtaa/maven-application-assignment:1.0.0"
-                     sh "docker push gtaa/maven-application-assignment:1.0.0"
-                    sh "docker run gtaa/maven-application-assignment:1.0.0"
-                    }
+                    script{
+                    docker.withRegistry('941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech', 'ecr:ap-south-1:AWSCREDS') {
+                        def image = docker.build('${dockerImage}')
+                        image.push(${BUILD_NUMBER})
                     }
                     }
                 }
         }
+
 
     }
 }
