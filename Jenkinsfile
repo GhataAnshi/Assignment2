@@ -27,23 +27,28 @@ pipeline {
 
         stage('Scan with SonarQube') { 
             steps { 
-                withSonarQubeEnv('SonarQubeToken'){
-                   bat 'mvn sonar:sonar'
+                withSonarQubeEnv('sonarqube'){
+                   bat 'mvn -f ./my-app/pom.xml sonar:sonar'
                 }
             } 
         }
 
-        stage('Building our image') { 
+        stage('Initializing terraform') { 
             steps { 
-                script { 
-                    dockerImage = docker.build dockerImage 
-                }
+                sh ' terraform init' 
+                sh 'terraform plan '
+                sh 'terraform apply -var aws_region="ap-south-1" '
+            } 
+        }
+
+        stage('Building our image using terraform') { 
+            steps { 
+                sh 'terraform apply -var aws_region="ap-south-1" '
             } 
         }
 
         stage('Push to ECR'){
                 steps {
-                    echo "Steps that are followed: \n 1. Image built in above step is pushed to repository."
                     script{
                     docker.withRegistry('941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech', 'ecr:ap-south-1:AWSCREDS') {
                         def image = docker.build('${dockerImage}')
