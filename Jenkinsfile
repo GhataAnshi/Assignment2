@@ -30,7 +30,7 @@ pipeline{
                     echo "Steps that are followed: \n 1. Image built in above step is pushed to repository."
                     script{withCredentials([usernamePassword(credentialsId: 'gtaa', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     docker.withRegistry('', 'gtaa') {
-                    sh "docker push gtaa/dockerImage:${BUILD_NUMBER}"
+                     sh "docker push gtaa/${dockerImage}:${BUILD_NUMBER}"
                     sh "docker run gtaa/maven-application-assignment:1.0.0"
                     }
                     }
