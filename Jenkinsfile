@@ -6,10 +6,10 @@ node {
 }
 
 pipeline {
- parameters {
+/* parameters {
     password (name: 'AWS_ACCESS_KEY_ID')
     password (name: 'AWS_SECRET_ACCESS_KEY')
-  }
+  }*/
    environment {
         dockerImage = 'maven-application-assignment'
         //AWS_ACCESS_KEY_ID = "${params.AWS_ACCESS_KEY_ID}"
