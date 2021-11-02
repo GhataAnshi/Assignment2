@@ -9,9 +9,12 @@ pipeline {
 
    environment {
         dockerImage = 'maven-application-assignment'
+        TF_WORKSPACE = "test"
     }
 
     agent any
+  
+  
     stages {
 
         stage('Code pull from Github') { 
@@ -35,15 +38,14 @@ pipeline {
 
         stage('Initializing terraform') { 
             steps { 
-                sh ' terraform init' 
-                sh 'terraform plan '
-                sh 'terraform apply -var aws_region="ap-south-1" '
+                sh " ./${env.TF_WORKSPACE}/terraform init"
+                sh "./${env.TF_WORKSPACE}/terraform plan "
             } 
         }
 
         stage('Building our image using terraform') { 
             steps { 
-                sh 'terraform apply -var aws_region="ap-south-1" '
+                sh "./${env.TF_WORKSPACE}/terraform apply -var aws_region=ap-south-1 "
             } 
         }
 
