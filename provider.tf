@@ -1,4 +1,5 @@
 provider "aws" {
+  shared_credentials_file = "/home/ec2-user/.aws/credentials"
   profile = "myprofile"
   region     = "${var.aws_region}"
 }
