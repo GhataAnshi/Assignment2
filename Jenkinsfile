@@ -28,7 +28,7 @@ pipeline {
         stage('Scan with SonarQube') { 
             steps { 
                 withSonarQubeEnv('sonarqube'){
-                   bat 'mvn -f ./my-app/pom.xml sonar:sonar'
+                   sh 'mvn -f ./my-app/pom.xml sonar:sonar'
                 }
             } 
         }
