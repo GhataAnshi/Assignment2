@@ -45,7 +45,7 @@ pipeline {
 
         stage('Building our image using terraform') { 
             steps { 
-                sh "${env.TF_WORKSPACE}/terraform apply -var aws_region="ap-south-1" "
+                sh "${env.TF_WORKSPACE}/terraform apply -var aws_region=ap-south-1 "
             } 
         }
 
