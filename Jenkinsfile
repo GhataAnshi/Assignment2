@@ -38,14 +38,14 @@ pipeline {
 
         stage('Initializing terraform') { 
             steps { 
-                sh " terraform init"
-                sh "terraform plan "
+                sh " /usr/local/bin/terraform init"
+                sh "/usr/local/bin/terraform plan "
             } 
         }
 
         stage('Building our image using terraform') { 
             steps { 
-                sh "terraform apply -var aws_region=ap-south-1 "
+                sh "/usr/local/bin/terraform apply -var aws_region=ap-south-1 "
             } 
         }
 
