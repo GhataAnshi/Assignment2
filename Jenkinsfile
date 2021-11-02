@@ -41,10 +41,10 @@ parameters {
         }
 
         stage('Initializing terraform') { 
-            steps { 
+            steps {withAWS(credentials:'AWS_Creds') { 
                 sh " /usr/local/bin/terraform init"
                 sh "/usr/local/bin/terraform plan -var aws_region=ap-south-1 "
-            } 
+            } }
         }
 
         stage('Building our image using terraform') { 
