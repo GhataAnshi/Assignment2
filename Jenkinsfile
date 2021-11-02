@@ -9,15 +9,11 @@ pipeline {
 
    environment {
         dockerImage = 'maven-application-assignment'
+        TF_WORKSPACE = "test/"
     }
 
     agent any
   
-      parameters {
-        string(name: 'environment', defaultValue: 'test/', description: 'Workspace/environment file to use for deployment')
-        //string(name: 'version', defaultValue: '', description: 'Version variable to pass to Terraform')
-      //  booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
-    }
   
     stages {
 
@@ -42,15 +38,14 @@ pipeline {
 
         stage('Initializing terraform') { 
             steps { 
-                sh '/usr/local/bin/terraform workspace select ${environment}'
-                sh ' /usr/local/bin/terraform init' 
-                sh '/usr/local/bin/terraform plan '
+                sh ' ${env.TF_WORKSPACE}/terraform init' 
+                sh '${env.TF_WORKSPACE}/terraform plan '
             } 
         }
 
         stage('Building our image using terraform') { 
             steps { 
-                sh '/usr/local/bin/terraform apply -var aws_region="ap-south-1" '
+                sh '${env.TF_WORKSPACE}/terraform apply -var aws_region="ap-south-1" '
             } 
         }
 
