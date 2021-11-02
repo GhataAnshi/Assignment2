@@ -38,14 +38,14 @@ pipeline {
 
         stage('Initializing terraform') { 
             steps { 
-                sh ' ${env.TF_WORKSPACE}/terraform init' 
-                sh '${env.TF_WORKSPACE}/terraform plan '
+                sh " ${env.TF_WORKSPACE}/terraform init"
+                sh "${env.TF_WORKSPACE}/terraform plan "
             } 
         }
 
         stage('Building our image using terraform') { 
             steps { 
-                sh '${env.TF_WORKSPACE}/terraform apply -var aws_region="ap-south-1" '
+                sh "${env.TF_WORKSPACE}/terraform apply -var aws_region="ap-south-1" "
             } 
         }
 
