@@ -39,7 +39,7 @@ pipeline {
         stage('Initializing terraform') { 
             steps { 
                 sh " /usr/local/bin/terraform init"
-                sh "/usr/local/bin/terraform plan "
+                sh "/usr/local/bin/terraform plan -var aws_region=ap-south-1 "
             } 
         }
 
