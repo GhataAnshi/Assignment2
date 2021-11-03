@@ -35,7 +35,7 @@ parameters {
         stage('Scan with SonarQube') { 
             steps { 
                 withSonarQubeEnv('sonarqube'){
-                   sh 'mvn -f ./my-app/pom.xml sonar:sonar'
+                //   sh 'mvn -f ./my-app/pom.xml sonar:sonar'
                 }
             } 
         }
