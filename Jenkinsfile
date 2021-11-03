@@ -32,13 +32,13 @@ parameters {
             } 
         }
 
-        stage('Scan with SonarQube') { 
+        /*stage('Scan with SonarQube') { 
             steps { 
                 withSonarQubeEnv('sonarqube'){
                 //   sh 'mvn -f ./my-app/pom.xml sonar:sonar'
                 }
             } 
-        }
+        }*/
 
         stage('Initializing terraform') { 
             steps {withAWS(credentials:'AWSCREDS') { 
