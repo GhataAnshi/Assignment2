@@ -45,7 +45,9 @@ pipeline {
 
         stage('Building docker image') { 
             steps { 
-              sh "docker build -t  ${dockerImage} . "
+               script { 
+                    dockerImage = docker.build "test-app-name" + ":%BUILD_NUMBER%"
+                }
             } 
         }
 
