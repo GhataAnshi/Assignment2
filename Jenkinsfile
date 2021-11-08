@@ -62,8 +62,8 @@ pipeline {
                 steps {
                     script{
                      
-                        sh "docker tag ${dockerImage}:${BUILD_NUMBER} 941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech/${dockerImage}:${BUILD_NUMBER}"
-                        sh "docker push 941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech/${dockerImage}:${BUILD_NUMBER}"
+                        sh "docker tag ${dockerImage}:${BUILD_NUMBER} 941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech:${BUILD_NUMBER}"
+                        sh "docker push 941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech:${BUILD_NUMBER}"
                     
                     }
                 }
