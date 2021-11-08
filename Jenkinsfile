@@ -62,7 +62,7 @@ pipeline {
                 steps {
                     script{
                         def image = docker.build('${dockerImage}')
-                        image.push(${BUILD_NUMBER})
+                        image.push('${dockerImage}:${BUILD_NUMBER}')
                     
                     }
                 }
