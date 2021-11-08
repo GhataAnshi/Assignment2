@@ -17,7 +17,7 @@ resource "aws_instance" "MyFirstInstnace" {
 }
 
 
-resource "docker_image" "backend" {
+/*resource "docker_image" "backend" {
   name = "maven-application-assignment"
 
   build {
@@ -26,7 +26,7 @@ resource "docker_image" "backend" {
 
   }
 
-}
+}*/
 
 output "public_ip" {
   value = aws_instance.MyFirstInstnace.public_ip 
