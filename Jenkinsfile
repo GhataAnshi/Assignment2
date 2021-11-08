@@ -43,13 +43,13 @@ pipeline {
             } }
         }
 
-       /* stage('Building docker image') { 
+        stage('Building docker image') { 
             steps { 
                script { 
-                    dockerImage = docker.build "test-app-name" + ":%BUILD_NUMBER%"
+                    dockerImage = docker.build "${dockerImage}:${BUILD_NUMBER}"
                 }
             } 
-        }*/
+        }
        stage('Logging into AWS ECR') {
             steps {
                 script {
@@ -61,7 +61,7 @@ pipeline {
         stage('Push to ECR'){
                 steps {
                     script{
-                      def image = docker.build "${dockerImage}:${BUILD_NUMBER}"
+                     
                         docker tag ${dockerImage}:${BUILD_NUMBER} https://941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech:${BUILD_NUMBER}
                         image.push('${dockerImage}:${BUILD_NUMBER}')
                     
