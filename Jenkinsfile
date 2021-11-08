@@ -61,7 +61,7 @@ pipeline {
         stage('Push to ECR'){
                 steps {
                     script{
-                    docker.withRegistry("941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech", "ecr:ap-south-1:AWSCREDS") {
+                    docker.withRegistry("https://941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech", "ecr:ap-south-1:AWSCREDS") {
                         def image = docker.build('${dockerImage}')
                         image.push(${BUILD_NUMBER})
                     }
