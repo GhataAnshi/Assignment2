@@ -50,21 +50,20 @@ pipeline {
                 }
             } 
         }*/
-       /*stage('Logging into AWS ECR') {
+       stage('Logging into AWS ECR') {
             steps {
                 script {
-                sh "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 941835213643.dkr.ecr.ap-south-1.amazonaws.com"
+                sh "aws ecr get-login-password --region "ap-south-1" | docker login --username AWS --password-stdin https://941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech"
                 }
                  
             }
-        }*/
+        }
         stage('Push to ECR'){
                 steps {
                     script{
-                    docker.withRegistry("https://941835213643.dkr.ecr.ap-south-1.amazonaws.com/assignment2-citiustech", "ecr:ap-south-1:AWSCREDS") {
                         def image = docker.build('${dockerImage}')
                         image.push(${BUILD_NUMBER})
-                    }
+                    
                     }
                 }
         }
