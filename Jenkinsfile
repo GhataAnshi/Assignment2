@@ -43,13 +43,13 @@ pipeline {
             } }
         }
 
-        stage('Building docker image') { 
+       /* stage('Building docker image') { 
             steps { 
                script { 
                     dockerImage = docker.build "test-app-name" + ":%BUILD_NUMBER%"
                 }
             } 
-        }
+        }*/
 
         stage('Push to ECR'){
                 steps {
