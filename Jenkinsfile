@@ -6,14 +6,10 @@ node {
 }
 
 pipeline {
-parameters {
-    password (name: 'AWS_ACCESS_KEY_ID')
-    password (name: 'AWS_SECRET_ACCESS_KEY')
-  }
+
    environment {
         dockerImage = 'maven-application-assignment'
-       aws_access_key_id = "${params.AWS_ACCESS_KEY_ID}"
-        aws_secret_access_key = "${params.AWS_SECRET_ACCESS_KEY}"
+
     }
 
     agent any
@@ -47,9 +43,9 @@ parameters {
             } }
         }
 
-        stage('Building our image using terraform') { 
+        stage('Building docker image') { 
             steps { 
-                sh "/usr/local/bin/terraform apply -var aws_region=ap-south-1 "
+              sh "docker build -t  ${dockerImage} . "
             } 
         }
 
