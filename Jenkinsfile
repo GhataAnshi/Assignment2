@@ -61,7 +61,7 @@ pipeline {
         stage('Push to ECR'){
                 steps {
                     script{
-                        def image = docker.build('${dockerImage}:${BUILD_NUMBER}')
+                      def image = docker.build "${dockerImage}:${BUILD_NUMBER}"
                         docker tag ${dockerImage}:${BUILD_NUMBER} https://941835213643.dkr.ecr.ap-south-1.amazonaws.com/:${BUILD_NUMBER}
                         image.push('${dockerImage}:${BUILD_NUMBER}')
                     
