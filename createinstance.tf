@@ -3,30 +3,45 @@ key_name = "levelup_key"
     public_key = file(var.PATH_TO_PUBLIC_KEY)
 }
 
-#Create AWS Instance
-resource "aws_instance" "MyFirstInstnace" {
-  ami           = lookup(var.AMIS, var.AWS_REGION)
-  instance_type = "t2.micro"
-  availability_zone = "ap-south-1a"
-  key_name      = aws_key_pair.levelup_key.key_name
-  
+
+resource "aws_eks_cluster" "aws_eks" {
+  name     = "eks_cluster_levelup"
+  role_arn = aws_iam_role.eks_cluster.arn
+
+  vpc_config {
+    subnet_ids = module.vpc.public_subnets
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.AmazonEKSServicePolicy,
+  ]
 
   tags = {
-    Name = "custom_instance"
+    Name = "EKS_Cluster_LevelUp"
   }
 }
 
+resource "aws_eks_node_group" "node" {
+  cluster_name    = aws_eks_cluster.aws_eks.name
+  node_group_name = "node_levelup"
+  node_role_arn   = aws_iam_role.eks_nodes.arn
+  subnet_ids      = module.vpc.public_subnets
 
-/*resource "docker_image" "backend" {
-  name = "maven-application-assignment"
-
-  build {
-   path = "../."
-   dockerfile = "Dockerfile"
-
+  scaling_config {
+    desired_size = 1
+    max_size     = 1
+    min_size     = 1
   }
 
-}*/
+  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
+  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
 
 output "public_ip" {
   value = aws_instance.MyFirstInstnace.public_ip 
