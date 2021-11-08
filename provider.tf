@@ -4,11 +4,11 @@ provider "aws" {
   region     = "${var.aws_region}"
 }
 
-provider "docker" {
+/*provider "docker" {
 host = "unix:///var/run/docker.sock"
 
 }
-/*
+
 data "aws_ecr_image" "service_image" {
   repository_name = "assignment2-citiustech"
   image_tag       = "latest"
